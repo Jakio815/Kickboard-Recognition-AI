@@ -94,6 +94,7 @@ def main():
     cls_dict = get_cls_dict(args.category_num)
     vis = BBoxVisualization(cls_dict)
     trt_yolo = TrtYOLO(args.model, args.category_num, args.letter_box)
+    print(trt_yolo.shape())
 
     open_window(
         WINDOW_NAME, 'Camera TensorRT YOLO Demo',

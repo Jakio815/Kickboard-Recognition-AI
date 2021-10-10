@@ -3,6 +3,19 @@
 NOTE: Number of YOLO COCO output classes differs from SSD COCO models.
 """
 
+YOLO_CLASSES_LIST = [
+    'no_helmet',
+    'two_people',
+    'safe',
+
+]
+
+YOLO2_CLASSES_LIST = [
+    'person',
+    'kickboard',
+    'helmet',
+]
+
 COCO_CLASSES_LIST = [
     'person',
     'bicycle',
@@ -100,5 +113,17 @@ def get_cls_dict(category_num):
     """Get the class ID to name translation dictionary."""
     if category_num == 80:
         return {i: n for i, n in enumerate(COCO_CLASSES_LIST)}
+    elif category_num == 3:
+        return {i: n for i, n in enumerate(YOLO_CLASSES_LIST)}
     else:
         return {i: 'CLS%d' % i for i in range(category_num)}
+
+def get_cls_dict2(category_num):
+    """Get the class ID to name translation dictionary."""
+    if category_num == 80:
+        return {i: n for i, n in enumerate(COCO_CLASSES_LIST)}
+    elif category_num == 3:
+        return {i: n for i, n in enumerate(YOLO2_CLASSES_LIST)}
+    else:
+        return {i: 'CLS%d' % i for i in range(category_num)}
+

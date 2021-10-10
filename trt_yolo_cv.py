@@ -10,7 +10,7 @@ made by BigJoon (ref. jkjung-avt)
 
 import os
 import argparse
-
+import time
 import cv2
 import pycuda.autoinit  # This is needed for initializing CUDA driver
 
@@ -18,6 +18,7 @@ from utils.yolo_classes import get_cls_dict
 from utils.visualization import BBoxVisualization
 from utils.yolo_with_plugins import TrtYOLO
 
+from utils.display import show_fps
 
 def parse_args():
     """Parse input arguments."""
@@ -56,12 +57,19 @@ def loop_and_detect(cap, trt_yolo, conf_th, vis, writer):
       vis: for visualization.
       writer: the VideoWriter object for the output video.
     """
-
+    fps = 0.0
+    tic = time.time()
     while True:
         ret, frame = cap.read()
         if frame is None:  break
         boxes, confs, clss = trt_yolo.detect(frame, conf_th)
+        print(clss,shape)
         frame = vis.draw_bboxes(frame, boxes, confs, clss)
+        frame = show_fps(frame, fps)
+        toc = time.time()
+        curr_fps = 1.0 / (toc - tic)
+        fps = curr_fps if fps == 0.0 else (fps*0.95 + curr_fps*0.05)
+        tic = toc
         writer.write(frame)
         print('.', end='', flush=True)
 
